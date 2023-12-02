@@ -2,7 +2,8 @@ import Data.List
 import Data.Function
 import Data.Char
 
-main = do  
+main :: IO ()
+main = do
     contents <- readFile "input.txt"
     print $ part1 contents
     print $ part2 contents
@@ -12,7 +13,7 @@ extractNumeric :: String -> [Int]
 extractNumeric s = map digitToInt $ filter (`elem` ['1'..'9']) s
 
 getCalib1 :: [Int] -> Int
-getCalib1 s = (head s) * 10 + (last s)
+getCalib1 s = head s * 10 + last s
 
 part1 :: String -> Int
 part1 contents = sum $ map (getCalib1 . extractNumeric) (words contents)
@@ -41,13 +42,13 @@ sDigitToInt s | s `isInfixOf` "123456789" = read s
 sDigits = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 getFirst2 :: String -> Int
-getFirst2 s = sDigitToInt $ minimumBy (compare `on` (index s)) (filter (`isInfixOf` s) sDigits)
+getFirst2 s = sDigitToInt $ minimumBy (compare `on` index s) (filter (`isInfixOf` s) sDigits)
 
 getLast2 :: String -> Int
-getLast2 s = sDigitToInt $ minimumBy (compare `on` (rindex s)) (filter (`isInfixOf` s) sDigits)
+getLast2 s = sDigitToInt $ minimumBy (compare `on` rindex s) (filter (`isInfixOf` s) sDigits)
 
 getCalib2 :: String -> Int
-getCalib2 s = (getFirst2 s) * 10 + (getLast2 s)
+getCalib2 s = getFirst2 s * 10 + getLast2 s
 
 part2 :: String -> Int
 part2 contents = sum $ map getCalib2 (words contents)
